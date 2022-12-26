@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-func Parse(qris string) *QrisParseResponse {
+func QrisParser(qris string) *QrisParseResponse {
 
 	data := qris
 	tags := []string{"00", "01", "26", "51", "52", "53", "54", "58", "59", "60", "61", "62", "63"}

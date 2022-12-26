@@ -12,13 +12,13 @@ const (
 )
 
 func TestQrisParseNoAmount(t *testing.T) {
-	res := Parse(testDataNoAmount)
+	res := QrisParser(testDataNoAmount)
 	assert.Equal(t, res.QRISAcquirerMerchantID, "12345678901234")
 	assert.Equal(t, res.TransactionAmount, "")
 }
 
 func TestQrisParseWithAmount(t *testing.T) {
-	res := Parse(testData)
+	res := QrisParser(testData)
 	assert.Equal(t, res.MerchantCity, "Kabupaten Bangk")
 	assert.Equal(t, res.TransactionAmount, "10000")
 }
