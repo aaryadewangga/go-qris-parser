@@ -2,7 +2,7 @@
 
 ## How to Use
 ```golang
-import "github.com/aaryadewangga/go-qris-parse"
+import "github.com/aaryadewangga/go-qris-parser"
 
 // somewhere in your project
 q := qris.Qris{}
