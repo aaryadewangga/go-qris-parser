@@ -1,10 +1,7 @@
 package qris
 
 import (
-	"log"
 	"testing"
-
-	"github.com/stretchr/testify/assert"
 )
 
 const (
@@ -14,30 +11,37 @@ const (
 
 func TestQrisParseWithAmount(t *testing.T) {
 	q := Qris{}
-	err := q.Parse(testData)
-	assert.Equal(t, q.MerchantAccountInformationDomestic.ReverseDomain, "COM.XXXX.WWW")
-	assert.Equal(t, q.MerchantAccountInformationDomestic.GlobalID, "120000123400001234")
-	assert.Equal(t, q.MerchantAccountInformationDomestic.ID, "1234")
-	assert.Equal(t, q.MerchantAccountInformationDomestic.Type, "UMI")
-	assert.Equal(t, q.MerchantName, "TOKO MIXUE BARU")
-	assert.Equal(t, q.MerchantCity, "Kabupaten Tokyo")
-	assert.Equal(t, q.TransactionAmount, "10000")
-	assert.Nil(t, err)
+	if err := q.Parse(testData); err != nil {
+		t.Fatalf("Parse() error = %v", err)
+	}
 
-	log.Printf("%+v\n", q)
+	assertEqual(t, "MerchantAccountInformationDomestic.ReverseDomain", q.MerchantAccountInformationDomestic.ReverseDomain, "COM.XXXX.WWW")
+	assertEqual(t, "MerchantAccountInformationDomestic.GlobalID", q.MerchantAccountInformationDomestic.GlobalID, "120000123400001234")
+	assertEqual(t, "MerchantAccountInformationDomestic.ID", q.MerchantAccountInformationDomestic.ID, "1234")
+	assertEqual(t, "MerchantAccountInformationDomestic.Type", q.MerchantAccountInformationDomestic.Type, "UMI")
+	assertEqual(t, "MerchantName", q.MerchantName, "TOKO MIXUE BARU")
+	assertEqual(t, "MerchantCity", q.MerchantCity, "Kabupaten Tokyo")
+	assertEqual(t, "TransactionAmount", q.TransactionAmount, "10000")
 }
 
 func TestQrisParseNoAmount(t *testing.T) {
 	q := Qris{}
-	err := q.Parse(testDataNoAmount)
-	assert.Equal(t, q.MerchantAccountInformationDomestic.ReverseDomain, "COM.MYWEB.WWW")
-	assert.Equal(t, q.MerchantAccountInformationDomestic.GlobalID, "123456789012345678")
-	assert.Equal(t, q.MerchantAccountInformationDomestic.ID, "12345678901234")
-	assert.Equal(t, q.MerchantAccountInformationDomestic.Type, "UKE")
-	assert.Equal(t, q.MerchantName, "QRIS ARYA")
-	assert.Equal(t, q.MerchantCity, "Jakarta Selatan")
-	assert.Equal(t, q.TransactionAmount, "")
-	assert.Nil(t, err)
+	if err := q.Parse(testDataNoAmount); err != nil {
+		t.Fatalf("Parse() error = %v", err)
+	}
 
-	log.Printf("%+v\n", q)
+	assertEqual(t, "MerchantAccountInformationDomestic.ReverseDomain", q.MerchantAccountInformationDomestic.ReverseDomain, "COM.MYWEB.WWW")
+	assertEqual(t, "MerchantAccountInformationDomestic.GlobalID", q.MerchantAccountInformationDomestic.GlobalID, "123456789012345678")
+	assertEqual(t, "MerchantAccountInformationDomestic.ID", q.MerchantAccountInformationDomestic.ID, "12345678901234")
+	assertEqual(t, "MerchantAccountInformationDomestic.Type", q.MerchantAccountInformationDomestic.Type, "UKE")
+	assertEqual(t, "MerchantName", q.MerchantName, "QRIS ARYA")
+	assertEqual(t, "MerchantCity", q.MerchantCity, "Jakarta Selatan")
+	assertEqual(t, "TransactionAmount", q.TransactionAmount, "")
+}
+
+func assertEqual(t *testing.T, field, got, want string) {
+	t.Helper()
+	if got != want {
+		t.Errorf("%s = %q, want %q", field, got, want)
+	}
 }
